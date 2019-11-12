@@ -1,0 +1,21 @@
+<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <h1 class="display-4">Новинки каталога</h1>
+
+  [% IF last_movies.count %]
+  <div class="row">
+    [% FOR movie IN last_movies.all %]
+      <div class="col-md-4">
+        <h4>[% movie.title %]</h4>
+        <p>[%
+            arr = [];
+            FOR genre IN movie.genres;
+              arr.push( genre.name );
+            END;
+            arr.join(', ');
+          %]
+        </p>
+      </div>
+    [% END %]
+  </div>
+  [% END %]
+</div>

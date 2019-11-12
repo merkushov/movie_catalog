@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+MYSQL_USER="filmcritic"
+MYSQL_PASSWORD="12345"
+MYSQL_DATABASE="movie_catalog"
+
+echo "CREATE DATABASE $MYSQL_DATABASE DEFAULT CHARACTER SET utf8" | sudo mysql
+echo "CREATE USER '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD'" | sudo mysql
+echo "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'localhost' WITH GRANT OPTION" | sudo mysql

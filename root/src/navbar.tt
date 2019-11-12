@@ -1,0 +1,14 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+  <h5 class="my-0 mr-md-auto font-weight-normal">
+    <a href="[% c.uri_for( c.controller('Root').action_for('index') ) %]">Каталог фильмов</a>
+  </h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="[% c.uri_for( c.controller('Movie').action_for('list') ) %]">Фильмы</a>
+    <a class="p-2 text-dark" href="[% c.uri_for( c.controller('Analytics').action_for('index') ) %]">Аналитика</a>
+  </nav>
+  [% IF c.user_exists %]
+    <a class="btn btn-outline-primary" href="[% c.uri_for( c.controller('Auth').action_for('signout') ) %]">Выйти</a>
+  [% ELSE %]
+    <a class="btn btn-outline-primary" href="[% c.uri_for( c.controller('Auth').action_for('signin') ) %]">Войти</a>
+  [% END %]
+</div>

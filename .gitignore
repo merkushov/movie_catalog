@@ -1,0 +1,6 @@
+devops/.vagrant
+devops/*.log
+inc
+share
+share/moviecatalog-schema/*
+share/moviecatalog-schema.db

@@ -1,0 +1,102 @@
+<div class="col-md-12">
+
+  [% IF error_msg %]
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <h4>Error</h4>
+      <p>[% error_msg %] Please try again or contact support</p>
+
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  [% END %]
+
+  <h4 class="mb-3">Add new Movie</h4>
+  <form action="[% c.uri_for( c.controller('Movie').action_for('add_POST') ) %]" method="POST" class="needs-validation" novalidate>
+
+    <div class="form-group row">
+      <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+      <div class="col-sm-10">
+        <input name="title" type="text" class="form-control" id="inputTitle" placeholder="Movie title" value="[% params.title %]" required>
+        <div class="invalid-feedback">
+          Movie title is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputYear" class="col-sm-2 col-form-label">Year</label>
+      <div class="col-sm-10">
+        <input name="year" type="text" class="form-control" id="inputYear" placeholder="Year (e.g. 2019)" value="[% params.year %]" required>
+        <div class="invalid-feedback">
+          Year is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="inputRuntime" class="col-sm-2 col-form-label">Runtime</label>
+      <div class="col-sm-10">
+        <input name="runtime" type="text" class="form-control" id="inputRuntime" placeholder="" value="[% params.runtime %]">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-2">Genres</div>
+      <div class="col-sm-10">
+        [% FOR genre IN genres.all %]
+        <div class="form-check">
+            <input name="genre_[% genre.id %]" class="form-check-input" type="checkbox" id="gridGenre[% genre.id %]" value="1" [% IF params.item( 'genre_' _ genre.id ); 'checked="checked"'; END; %]>
+            <label class="form-check-label" for="gridGenre[% genre.id %]">
+              [% genre.name %]
+            </label>
+        </div>
+        [% END %]
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-10">
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- <script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script> -->
+
+<style type="text/css">
+  .container {
+    max-width: 960px;
+  }
+
+  .border-top { border-top: 1px solid #e5e5e5; }
+  .border-bottom { border-bottom: 1px solid #e5e5e5; }
+  .border-top-gray { border-top-color: #adb5bd; }
+
+  .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+  .lh-condensed { line-height: 1.25; }
+
+</style>

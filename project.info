@@ -1,0 +1,40 @@
+# for development
+vagrant plugin update
+vagrant up
+vagrant ssh
+
+# migrate
+export DBIC_MIGRATION_SCHEMA_CLASS=MovieCatalog::Schema
+export DBIC_MIGRATION_USERNAME=filmcritic
+export DBIC_MIGRATION_PASSWORD=12345
+
+mkdir share
+
+dbic-migration -Ilib --database MySQL --dsn=dbi:mysql:movie_catalog version
+dbic-migration -Ilib --database MySQL --dsn=dbi:mysql:movie_catalog status
+dbic-migration -Ilib --database MySQL --dsn=dbi:mysql:movie_catalog prepare
+dbic-migration -Ilib --database MySQL --dsn=dbi:mysql:movie_catalog --force_overwrite prepare
+dbic-migration -Ilib --dsn=dbi:mysql:movie_catalog install
+
+# perl -Ilib lib/MovieCatalog/Schema/MigrationScript.pm status
+
+
+dbic-migration -Ilib --database MySQL --dsn=dbi:mysql:movie_catalog dump_all_sets
+
+
+INSERT INTO users (username, password, active) VALUES ('admin', SHA2( CONCAT('d29Ubnd', 'admin', 'oqIeQe'), 512 ), 1);
+
+# UPDATE users SET password=SHA2( CONCAT('d29Ubnd', 'admin', 'oqIeQe'), 512 ) WHERE username='admin';
+
+INSERT INTO roles (name) VALUES ('admin'), ('user');
+INSERT INTO user_roles (user_id, role_id) SELECT u.id, r.id FROM users u INNER JOIN roles r WHERE r.name='admin' AND u.username='admin' LIMIT 1;
+
+INSERT INTO genres (name) VALUES ('action'), ('comedy'), ('dramma'), ('horror'), ('romance'), ('thriller');
+
+
+
+catalyst.pl MovieCatalog
+perl ./script/moviecatalog_create.pl controller Movie
+perl ./script/moviecatalog_create.pl controller MyMovie
+perl ./script/moviecatalog_create.pl controller Auth
+perl ./script/moviecatalog_create.pl controller Analytics
