@@ -43,4 +43,15 @@ __PACKAGE__->has_many(
 
 __PACKAGE__->many_to_many( genres => 'movie_genres', 'genre' );
 
+sub get_genres_names {
+    my $self = shift;
+
+    my @names = ();
+    for ( $self->genres ) {
+        push @names, $_->name;
+    }
+
+    return \@names;
+}
+
 1;

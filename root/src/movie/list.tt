@@ -1,37 +1,35 @@
-<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">Список всех фильмов</h1>
-  <p class="lead">Страница со списком всех фильмов каталога. Должны быть доступны фильтры, сортировки и навигация по списку (страницы)</p>
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h1 class="display-4">Список всех фильмов</h1>
+    <p class="lead">Страница со списком всех фильмов каталога. Должны быть доступны фильтры, сортировки и навигация по списку (страницы)</p>
 
-  [% IF c.user_exists %]
-    <a type="button" class="btn btn-primary" href="[% c.uri_for( c.controller('Movie').action_for('add') ) %]">Добавить фильм</a>
-  [% END %]
+    [% IF c.user_exists %]
+      <a type="button" class="btn btn-primary" href="[% c.uri_for( c.controller('Movie').action_for('add') ) %]">Добавить фильм</a>
+    [% END %]
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Title</th>
-        <th scope="col">Year</th>
-        <th scope="col">Runtime</th>
-        <th scope="col">Genres</th>
-      </tr>
-    </thead>
-    <tbody>
-      [% FOR movie IN movies.all %]
+    <table class="table">
+      <thead>
         <tr>
-          <td>[% movie.title %]</td>
-          <td>[% movie.start_year %]</td>
-          <td>[% movie.runtime %]</td>
-          <td>
-            [%
-              arr = [];
-              FOR genre IN movie.genres;
-                arr.push( genre.name );
-              END;
-              arr.join(', ');
-            %]
-          </td>
+          <th scope="col">Title</th>
+          <th scope="col">Year</th>
+          <th scope="col">Runtime</th>
+          <th scope="col">Genres</th>
         </tr>
-      [% END %]
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        [% FOR movie IN movies.all %]
+          <tr>
+            <td>
+              <a href="[% c.uri_for( c.controller('Movie').action_for('view'), [ movie.id ] ) %]">[% movie.title %]</a>
+            </td>
+            <td>[% movie.start_year %]</td>
+            <td>[% movie.runtime %]</td>
+            <td>[% movie.get_genres_names.join(', ') %]</td>
+          </tr>
+        [% END %]
+      </tbody>
+    </table>
+  </div>
+
+  [% INCLUDE '_common/pager.tt', pager_action = c.controller('Movie').action_for('list') %]
 </div>

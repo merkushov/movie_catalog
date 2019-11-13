@@ -1,0 +1,17 @@
+[% IF pager AND pager.last_page > 1 %]
+  <nav aria-label="Movie list navigation">
+    <ul class="pagination">
+      <li class="page-item [% IF pager.current_page == 1; 'disabled'; END; %]">
+        <a class="page-link" href="[% c.uri_for( pager_action, undef, { p => pager.previous_page } ) %]" tabindex="-1">Previous</a>
+      </li>
+
+      [% FOR pnum IN [ pager.first_page .. pager.last_page ] %]
+        <li class="page-item [% IF pnum == pager.current_page; 'active'; END; %]"><a class="page-link" href="[% c.uri_for( pager_action, undef, { p => pnum } ) %]">[% pnum %]</a></li>
+      [% END %]
+
+      <li class="page-item [% IF pager.current_page == pager.last_page; 'disabled'; END; %]">
+        <a class="page-link" href="[% c.uri_for( pager_action, undef, { p => pager.next_page } ) %]">Next</a>
+      </li>
+    </ul>
+  </nav>
+[% END %]

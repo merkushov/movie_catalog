@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <h4 class="mb-3">Edit "[% movie.title %]"</h4>
+    <form action="[% c.uri_for( c.controller('Movie').action_for('edit_POST'), [ movie.id ] ) %]" method="POST" class="needs-validation" novalidate>
+
+      <div class="form-group row">
+        <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+        <div class="col-sm-10">
+          <input name="title" type="text" class="form-control" id="inputTitle" value="[% movie.title %]" readonly>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputYear" class="col-sm-2 col-form-label">Year</label>
+        <div class="col-sm-10">
+          <input name="year" type="text" class="form-control" id="inputYear" value="[% movie.start_year %]" readonly>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputRuntime" class="col-sm-2 col-form-label">Runtime</label>
+        <div class="col-sm-10">
+          <input name="runtime" type="text" class="form-control" id="inputRuntime" value="[% params.runtime %]">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-2">Genres</div>
+        <div class="col-sm-10">
+          [% FOR genre IN genres.all %]
+          <div class="form-check">
+              <input name="genre_[% genre.id %]" class="form-check-input" type="checkbox" id="gridGenre[% genre.id %]" value="1" [% IF params.item( 'genre_' _ genre.id ); 'checked="checked"'; END; %]>
+              <label class="form-check-label" for="gridGenre[% genre.id %]">
+                [% genre.name %]
+              </label>
+          </div>
+          [% END %]
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">Edit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style type="text/css">
+  .container {
+    max-width: 960px;
+  }
+
+  .border-top { border-top: 1px solid #e5e5e5; }
+  .border-bottom { border-bottom: 1px solid #e5e5e5; }
+  .border-top-gray { border-top-color: #adb5bd; }
+
+  .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+  .lh-condensed { line-height: 1.25; }
+
+</style>
