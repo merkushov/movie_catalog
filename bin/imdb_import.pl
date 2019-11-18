@@ -12,7 +12,6 @@ use Text::CSV_XS;
 
 use lib 'lib';
 use MovieCatalog::Model::DB;
-# use MovieCatalog::AppConfig;
 
 Log::Log4perl->easy_init($DEBUG);
 
@@ -20,9 +19,6 @@ my %opt = ();
 GetOptions (\%opt, 'force');
 
 our $TMP_PATH = '/tmp';
-
-# my $config = MovieCatalog::AppConfig->new;
-# DEBUG Dumper( $config );
 
 my $db = MovieCatalog::Model::DB->new;
 my $csv = Text::CSV_XS->new (
@@ -64,41 +60,6 @@ sub process_movies {
 
                     next unless $start_year && $start_year >= 1990;
 
-                    # my @genres = ();
-                    # if ( $row->[8] ) {
-                    #     my @genres_names = map { lc } split(',', $row->[8]);
-
-                    #     # DEBUG Dumper( \@genres_names );
-
-                    #     @genres = $db->resultset('Genre')->search(
-                    #         { name => { '-in' => \@genres_names } });
-
-                    #     if ( scalar @genres != scalar @genres_names ) {
-                    #         @genres = ();
-                    #         for my $genre ( @genres_names ) {
-                    #             next if $genre eq '\n';
-                    #             push @genres, $db->resultset('Genre')
-                    #                 ->find_or_create( { name => $genre });
-                    #         }
-                    #     }
-                    # }
-
-                    # my $movie = $db->resultset('Movie')->update_or_create(
-                    #     {
-                    #         imdb_id     => $row->[0],
-                    #         title       => $row->[2],
-                    #         start_year  => $start_year,
-                    #         runtime     => $runtime,
-                    #     },
-                    #     {
-                    #         key => 'movies_imdb_id_uidx'
-                    #     }
-                    # );
-
-                    # $movie->set_genres( \@genres );
-
-                    # sleep(1);
-
                     my @genres = ();
                     if ( $row->[8] ) {
 
@@ -107,21 +68,16 @@ sub process_movies {
 
                             next if $genre eq '\n';
                             if ( $unique_genres{$genre} ) {
-                                # push @genre_ids, $unique_genres{$genre};
                                 push @genres, { genre_id => $unique_genres{$genre} };
                             }
                             else {
                                 my $genre = $db->resultset('Genre')
                                     ->find_or_create({ name => $genre });
-                                # push @genre_ids, $genre->id;
                                 push @genres, { genre_id => $genre->id };
                                 %unique_genres = %{ &_get_genres_hash() };
                             }
                         }
 
-                        # if ( scalar @genre_ids ) {
-                        #     push @genre_insert, \@genre_ids;
-                        # }
                     }
 
                     push @movies_insert, {
@@ -139,10 +95,8 @@ sub process_movies {
 
                 if ( scalar( @movies_insert ) > 0 && scalar( @movies_insert ) % 3000 == 0 ) {
                     INFO "Insert 3000 rows into database";
-                    # DEBUG Dumper( \@movies_insert );
                     $db->resultset('Movie')->populate( \@movies_insert );
                     @movies_insert = ();
-                    # last;
                 }
 
             }
