@@ -3,6 +3,7 @@ requires 'DBD::mysql';
 requires 'Test::mysqld';
 requires 'Log::Dispatch';
 requires 'Term::Size::Any';
+requires 'Text::CSV_XS';
 
 requires 'Moose';
 

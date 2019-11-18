@@ -24,6 +24,11 @@ __PACKAGE__->add_columns(
         data_type => 'smallint',
         is_nullable => 1,
     },
+    'imdb_id' => {
+        data_type => 'varchar',
+        size => 30,
+        is_nullable => 1,
+    },
     'ctime' => {
         data_type     => 'timestamp',
         default_value => \'current_timestamp',
@@ -34,6 +39,8 @@ __PACKAGE__->add_columns(
 );
  
 __PACKAGE__->set_primary_key('id');
+__PACKAGE__->add_unique_constraint('movies_imdb_id_uidx', ['imdb_id']);
+
 __PACKAGE__->has_many(
   'movie_genres',
   'MovieCatalog::Schema::Result::MovieGenre',

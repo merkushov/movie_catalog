@@ -3,15 +3,12 @@ package MovieCatalog::Model::DB;
 use strict;
 use base 'Catalyst::Model::DBIC::Schema';
 
-# __PACKAGE__->config(
-#     schema_class => 'MovieCatalog::Schema',
+use MovieCatalog::AppConfig;
 
-#     connect_info => {
-#         quote_names => 1,
-#         mysql_enable_utf8 => 1,
-#         AutoCommit => 1,
-#     }
-# );
+__PACKAGE__->config(
+    schema_class => 'MovieCatalog::Schema',
+    connect_info => MovieCatalog::AppConfig->new->db_connect_info,
+);
 
 =head1 NAME
 
