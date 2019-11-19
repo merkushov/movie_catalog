@@ -50,5 +50,6 @@ __PACKAGE__->has_many(
   { "foreign.user_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
+__PACKAGE__->many_to_many( roles => 'user_roles', 'role' );
 
 1;

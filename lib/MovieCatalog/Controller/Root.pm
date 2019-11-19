@@ -61,7 +61,16 @@ Attempt to render a view, if needed.
 
 =cut
 
-sub end : ActionClass('RenderView') {}
+sub end : ActionClass('RenderView') {
+    my ( $self, $c ) = @_;
+
+    if ( $c->req->path =~ m/^admin/ ) {
+        $c->forward( $c->view('TTAdmin') );
+    }
+    else {
+        $c->forward( $c->view('TT') );
+    }
+}
 
 =head1 AUTHOR
 

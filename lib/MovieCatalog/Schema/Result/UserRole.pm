@@ -29,14 +29,14 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("user_id", "role_id");
 
 __PACKAGE__->belongs_to(
-  "roles",
+  "role",
   "MovieCatalog::Schema::Result::Role",
   { id => "role_id" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
 
 __PACKAGE__->belongs_to(
-  "users",
+  "user",
   "MovieCatalog::Schema::Result::User",
   { id => "user_id" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
