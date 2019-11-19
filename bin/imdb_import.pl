@@ -100,6 +100,11 @@ sub process_movies {
                 }
 
             }
+
+            if ( scalar @movies_insert ) {
+                $db->resultset('Movie')->populate( \@movies_insert );
+                @movies_insert = ();
+            }
             close $fh;
         }
         else {
