@@ -1,8 +1,12 @@
 <div class="row">
   <div class="col-md-12 text-center">
-    <h1 class="display-4">Список всех фильмов</h1>
+    <h4 class="display-4">Список всех фильмов</h4>
     <p class="lead">Страница со списком всех фильмов каталога. Должны быть доступны фильтры, сортировки и навигация по списку (страницы)</p>
+  </div>
+</div>
 
+<div class="row">
+  <div class="col-md-12">
     [% IF c.user_exists %]
       <a type="button" class="btn btn-primary" href="[% c.uri_for( c.controller('Movie').action_for('add') ) %]">Добавить фильм</a>
     [% END %]
@@ -29,7 +33,7 @@
         [% END %]
       </tbody>
     </table>
-  </div>
 
-  [% INCLUDE '_common/pager.tt', pager_action = c.controller('Movie').action_for('list') %]
+    [% INCLUDE '_common/pager.tt', pager_action = c.controller('Movie').action_for('list') %]
+  </div>
 </div>
